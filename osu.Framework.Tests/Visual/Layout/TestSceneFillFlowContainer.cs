@@ -29,6 +29,7 @@ namespace osu.Framework.Tests.Visual.Layout
         private FillFlowContainer fillContainer;
         private ScheduledDelegate scheduledAdder;
         private bool doNotAddChildren;
+        private bool addHiddenChildren;
 
         public TestSceneFillFlowContainer()
         {
@@ -146,6 +147,8 @@ namespace osu.Framework.Tests.Visual.Layout
                     {
                         RelativeSizeAxes = Axes.Both,
                         AutoSizeAxes = Axes.None,
+                        LayoutEasing = Easing.InOutQuint,
+                        LayoutDuration = 200,
                     },
                     new Box
                     {
@@ -307,7 +310,25 @@ namespace osu.Framework.Tests.Visual.Layout
                 }
             });
 
+            AddToggleStep("Adding some hidden box", state => { addHiddenChildren = state; });
+
             AddToggleStep("Stop adding children", state => { doNotAddChildren = state; });
+
+            AddToggleStep("Show all hidden box", state => 
+            {  
+                foreach( var child in fillContainer.Children)
+                {
+                    child.Show();
+                }    
+            });
+
+            AddToggleStep("Hide all hidden box", state =>
+            {
+                foreach (var child in fillContainer.Children)
+                {
+                    child.Hide();
+                }
+            });
 
             scheduledAdder?.Cancel();
             scheduledAdder = Scheduler.AddDelayed(
@@ -323,7 +344,7 @@ namespace osu.Framework.Tests.Visual.Layout
 
                     if (fillContainer.Children.Count < 1000 && !doNotAddChildren)
                     {
-                        fillContainer.Add(new Container
+                        var childContainer = new Container
                         {
                             Anchor = childAnchor,
                             Origin = childOrigin,
@@ -334,7 +355,7 @@ namespace osu.Framework.Tests.Visual.Layout
                                 {
                                     Width = 50,
                                     Height = 50,
-                                    Colour = Color4.White
+                                    Colour = Color4.White,
                                 },
                                 new SpriteText
                                 {
@@ -345,7 +366,12 @@ namespace osu.Framework.Tests.Visual.Layout
                                     Text = fillContainer.Children.Count.ToString()
                                 }
                             }
-                        });
+                        };
+
+                        if(addHiddenChildren)
+                            childContainer.Hide();
+
+                        fillContainer.Add(childContainer);
                     }
                 },
                 100,
