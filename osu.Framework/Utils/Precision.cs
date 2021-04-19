@@ -4,6 +4,7 @@
 using osuTK;
 using System;
 using osu.Framework.Graphics.Primitives;
+using osuTK.Graphics;
 
 namespace osu.Framework.Utils
 {
@@ -75,6 +76,16 @@ namespace osu.Framework.Utils
         /// <param name="acceptableDifference">The acceptable difference. Defaults to <see cref="FLOAT_EPSILON"/>.</param>
         /// <returns>Whether <paramref name="value1"/> and <paramref name="value2"/> are almost equal.</returns>
         public static bool AlmostEquals(Vector2 value1, Vector2 value2, float acceptableDifference = FLOAT_EPSILON) => AlmostEquals(value1.X, value2.X, acceptableDifference) && AlmostEquals(value1.Y, value2.Y, acceptableDifference);
+
+        /// <summary>
+        /// Computes whether two <see cref="Color4"/>s are equal within an acceptable difference.
+        /// </summary>
+        /// <param name="value1">The first <see cref="Color4"/>.</param>
+        /// <param name="value2">The second <see cref="Color4"/>.</param>
+        /// <param name="acceptableDifference">The acceptable difference. Defaults to <see cref="FLOAT_EPSILON"/>.</param>
+        /// <returns>Whether <paramref name="value1"/> and <paramref name="value2"/> are almost equal.</returns>
+        public static bool AlmostEquals(Color4 value1, Color4 value2, float acceptableDifference = FLOAT_EPSILON) => AlmostEquals(value1.R, value2.R, acceptableDifference)
+            && AlmostEquals(value1.G, value2.G, acceptableDifference) && AlmostEquals(value1.B, value2.B, acceptableDifference) && AlmostEquals(value1.A, value2.A, acceptableDifference);
 
         /// <summary>
         /// Computes whether two values are equal within an acceptable difference.
