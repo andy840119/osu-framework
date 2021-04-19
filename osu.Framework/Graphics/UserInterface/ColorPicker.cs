@@ -110,10 +110,10 @@ namespace osu.Framework.Graphics.UserInterface
                     return;
 
                 // Assigh canvas and scroller to change to current color
-                newColor.ToHsv(out float h, out float s, out float v);
-                HueSlider.Hue.Value = h;
-                PickerArea.Saturation.Value = s;
-                PickerArea.Value.Value = v;
+                var hsv = newColor.ToHSV();
+                HueSlider.Hue.Value = hsv.h;
+                PickerArea.Saturation.Value = hsv.s;
+                PickerArea.Value.Value = hsv.v;
             }, true);
 
             // If text changed is valid, change current color.
