@@ -224,7 +224,7 @@ namespace osu.Framework.Tests.Visual.UserInterface
 
         private void checkValue(Color4 expectColor, int count)
         {
-            AddAssert($"Color == {expectColor.ToString()}", () => Precision.AlmostEquals(expectColor, colorPicker.Current.Value, 0.005f));
+            AddAssert($"Color == {expectColor}", () => Precision.AlmostEquals(expectColor, colorPicker.Current.Value, 0.005f));
             AddAssert($"Count == {count}", () => count == this.count);
         }
 
