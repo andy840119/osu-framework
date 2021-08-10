@@ -33,12 +33,12 @@ namespace osu.Framework.Tests.Visual.Sprites
 
             flow.Add(new SpriteText
             {
-                Font = new FontUsage("OpenSans", weight: "TTF"),
+                Font = new FontUsage("Roboto", weight: "TTF"),
                 Text = @"the quick red fox jumps over the lazy brown dog 123aaa"
             });
             flow.Add(new SpriteText
             {
-                Font = new FontUsage("OpenSans", weight: "Regular"),
+                Font = new FontUsage("Roboto", weight: "Regular"),
                 Text = @"the quick red fox jumps over the lazy brown dog 123aaa"
             });
 
