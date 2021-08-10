@@ -1,6 +1,7 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System.Threading.Tasks;
 using osu.Framework.Text;
 
 namespace osu.Framework.IO.Stores
@@ -10,6 +11,27 @@ namespace osu.Framework.IO.Stores
     /// </summary>
     public interface IGlyphStore : IResourceStore<CharacterGlyph>
     {
+        string FontName { get; }
+
+        /// <summary>
+        /// Load glyph info once glyph has been imported in <see cref="FontStore"/>
+        /// </summary>
+        /// <returns>The task.</returns>
+        Task LoadFontAsync();
+
+        /// <summary>
+        /// Check the char has glyph.
+        /// </summary>
+        /// <param name="c">The character.</param>
+        /// <returns>Has glyph.</returns>
+        bool HasGlyph(char c);
+
+        /// <summary>
+        /// Get base height.
+        /// </summary>
+        /// <returns></returns>
+        int GetBaseHeight();
+
         /// <summary>
         /// Retrieves a <see cref="CharacterGlyph"/> that contains associated spacing information for a character.
         /// </summary>
