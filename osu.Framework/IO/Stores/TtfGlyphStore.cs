@@ -154,7 +154,7 @@ namespace osu.Framework.IO.Stores
             LoadedGlyphCount++;
 
             // see: https://stackoverflow.com/a/53023454/4105113
-            const float texture_scale = 100f;
+            const float texture_scale = dpi;
             var style = new RendererOptions(Font, dpi, dpi);
             var text = new string(new[] { c });
             var bounds = TextMeasurer.MeasureBounds(text, style);
@@ -168,8 +168,13 @@ namespace osu.Framework.IO.Stores
             // this allows further vector manipulation (scaling, translating) etc without the expensive pixel operations.
             var glyphs = SixLabors.ImageSharp.Drawing.TextBuilder.GenerateGlyphs(text, style);
 
+            // should calculate this because it will cut the border if width and height scale is not the same.
+            var widthScale = targetSize.Width / glyphs.Bounds.Width;
+            var heightScale = targetSize.Height / glyphs.Bounds.Height;
+            var minScale = Math.Min(widthScale, heightScale);
+
             // scale so that it will fit exactly in image shape once rendered
-            glyphs = glyphs.Scale(texture_scale);
+            glyphs = glyphs.Scale(minScale);
 
             // move the vectorised glyph so that it touch top and left edges
             // could be tweeked to center horizontally & vertically here
