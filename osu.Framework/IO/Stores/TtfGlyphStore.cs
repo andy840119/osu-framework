@@ -21,8 +21,6 @@ namespace osu.Framework.IO.Stores
 {
     public class TtfGlyphStore : IResourceStore<TextureUpload>, IGlyphStore
     {
-        private static readonly float scale = 8f;
-
         protected readonly string AssetName;
 
         public string FontName { get; }
@@ -150,10 +148,13 @@ namespace osu.Framework.IO.Stores
 
         protected virtual TextureUpload LoadCharacter(char c)
         {
+            if (Font == null)
+                return null;
+
             LoadedGlyphCount++;
 
             // see: https://stackoverflow.com/a/53023454/4105113
-
+            const float scale = 100f;
             var style = new RendererOptions(Font);
             var text = new string(new[] { c });
             var bounds = TextMeasurer.MeasureBounds(text, style);
@@ -167,13 +168,8 @@ namespace osu.Framework.IO.Stores
             // this allows further vector manipulation (scaling, translating) etc without the expensive pixel operations.
             var glyphs = SixLabors.ImageSharp.Drawing.TextBuilder.GenerateGlyphs(text, style);
 
-            // adjust scale
-            var widthScale = targetSize.Width / glyphs.Bounds.Width;
-            var heightScale = targetSize.Height / glyphs.Bounds.Height;
-            var minScale = Math.Min(widthScale, heightScale);
-
             // scale so that it will fit exactly in image shape once rendered
-            glyphs = glyphs.Scale(minScale);
+            glyphs = glyphs.Scale(scale);
 
             // move the vectorised glyph so that it touch top and left edges
             // could be tweeked to center horizontally & vertically here
