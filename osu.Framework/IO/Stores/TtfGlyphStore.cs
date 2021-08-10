@@ -101,7 +101,9 @@ namespace osu.Framework.IO.Stores
 
             var xOffset = bounds.X * scale;
             var yOffset = bounds.Y * scale;
-            var advanceWidth = bounds.Width * scale;
+
+            // todo: another magic number in here.
+            var advanceWidth = glyphInstance.AdvanceWidth * scale * 12 / fontInstance.EmSize;
             return new CharacterGlyph(character, xOffset, yOffset, advanceWidth, this);
         }
 
@@ -113,9 +115,11 @@ namespace osu.Framework.IO.Stores
             var leftGlyphInstance = fontInstance.GetGlyph(left);
             var rightGlyphInstance = fontInstance.GetGlyph(right);
 
-            // todo : got no idea why all offset is zero.
-            var kerning = fontInstance.GetOffset(rightGlyphInstance, leftGlyphInstance).X;
-            return (int)(kerning * scale);
+            // todo : fix the question below.
+            // update : IDK why it's only get -41
+            // update : kerning is working, maybe should check all the texture should not have border.
+            var kerning = fontInstance.GetOffset(rightGlyphInstance, leftGlyphInstance).Length();
+            return (int)(kerning / scale);
         }
 
         Task<CharacterGlyph> IResourceStore<CharacterGlyph>.GetAsync(string name) => Task.Run(() => ((IGlyphStore)this).Get(name[0]));
@@ -178,6 +182,8 @@ namespace osu.Framework.IO.Stores
             // create image with char.
             var img = new Image<Rgba32>(targetSize.Width, targetSize.Height, new Rgba32(255, 255, 255, 0));
             img.Mutate(i => i.Fill(Color.White, glyphs));
+            // img.Save($"test/{c}.png");
+
             return new TextureUpload(img);
         }
 
