@@ -21,7 +21,7 @@ namespace osu.Framework.IO.Stores
 {
     public class TtfGlyphStore : IResourceStore<TextureUpload>, IGlyphStore
     {
-        private const int dpi = 72;
+        private const int dpi = 80;
 
         protected readonly string AssetName;
 
