@@ -21,6 +21,8 @@ namespace osu.Framework.IO.Stores
 {
     public class TtfGlyphStore : IResourceStore<TextureUpload>, IGlyphStore
     {
+        private const int dpi = 72;
+
         protected readonly string AssetName;
 
         public string FontName { get; }
@@ -62,7 +64,7 @@ namespace osu.Framework.IO.Stores
                 {
                     var fonts = new FontCollection();
                     var fontFamily = fonts.Install(s);
-                    font = new Font(fontFamily, 12);
+                    font = new Font(fontFamily, 1);
                 }
 
                 completionSource.SetResult(font);
@@ -94,15 +96,14 @@ namespace osu.Framework.IO.Stores
                 return null;
 
             var text = new string(new[] { character });
-            var style = new RendererOptions(Font);
+            var style = new RendererOptions(Font, dpi);
             var bounds = TextMeasurer.MeasureBounds(text, style);
 
-            var xOffset = bounds.X * scale;
-            var yOffset = bounds.Y * scale;
+            var xOffset = bounds.Left * dpi;
+            var yOffset = bounds.Top * dpi;
 
-            // todo: another magic number in here.
-            var advanceWidth = glyphInstance.AdvanceWidth * scale * 12 / fontInstance.EmSize;
-            return new CharacterGlyph(character, xOffset, yOffset, advanceWidth, this);
+            var advanceWidth2 = glyphInstance.AdvanceWidth * dpi / glyphInstance.SizeOfEm;
+            return new CharacterGlyph(character, xOffset, yOffset, advanceWidth2, this);
         }
 
         public int GetKerning(char left, char right)
@@ -113,11 +114,8 @@ namespace osu.Framework.IO.Stores
             var leftGlyphInstance = fontInstance.GetGlyph(left);
             var rightGlyphInstance = fontInstance.GetGlyph(right);
 
-            // todo : fix the question below.
-            // update : IDK why it's only get -41
-            // update : kerning is working, maybe should check all the texture should not have border.
             var kerning = fontInstance.GetOffset(rightGlyphInstance, leftGlyphInstance).Length();
-            return (int)(kerning / scale);
+            return (int)kerning;
         }
 
         Task<CharacterGlyph> IResourceStore<CharacterGlyph>.GetAsync(string name) => Task.Run(() => ((IGlyphStore)this).Get(name[0]));
@@ -155,7 +153,7 @@ namespace osu.Framework.IO.Stores
 
             // see: https://stackoverflow.com/a/53023454/4105113
             const float texture_scale = dpi;
-            var style = new RendererOptions(Font, dpi, dpi);
+            var style = new RendererOptions(Font, dpi);
             var text = new string(new[] { c });
             var bounds = TextMeasurer.MeasureBounds(text, style);
             var targetSize = new
