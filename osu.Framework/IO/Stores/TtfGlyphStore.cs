@@ -154,14 +154,14 @@ namespace osu.Framework.IO.Stores
             LoadedGlyphCount++;
 
             // see: https://stackoverflow.com/a/53023454/4105113
-            const float scale = 100f;
-            var style = new RendererOptions(Font);
+            const float texture_scale = 100f;
+            var style = new RendererOptions(Font, dpi, dpi);
             var text = new string(new[] { c });
             var bounds = TextMeasurer.MeasureBounds(text, style);
             var targetSize = new
             {
-                Width = (int)(bounds.Width * scale),
-                Height = (int)(bounds.Height * scale),
+                Width = (int)(bounds.Width * texture_scale),
+                Height = (int)(bounds.Height * texture_scale),
             };
 
             // this is the important line, where we render the glyphs to a vector instead of directly to the image
@@ -169,7 +169,7 @@ namespace osu.Framework.IO.Stores
             var glyphs = SixLabors.ImageSharp.Drawing.TextBuilder.GenerateGlyphs(text, style);
 
             // scale so that it will fit exactly in image shape once rendered
-            glyphs = glyphs.Scale(scale);
+            glyphs = glyphs.Scale(texture_scale);
 
             // move the vectorised glyph so that it touch top and left edges
             // could be tweeked to center horizontally & vertically here
