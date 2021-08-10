@@ -115,6 +115,12 @@ namespace osu.Framework.IO.Stores
             var rightGlyphInstance = fontInstance.GetGlyph(right);
 
             var kerning = fontInstance.GetOffset(rightGlyphInstance, leftGlyphInstance).Length();
+
+            if (kerning != 0)
+            {
+                // tested at the same font, but cannot get kerning in here.
+            }
+
             return (int)kerning;
         }
 
