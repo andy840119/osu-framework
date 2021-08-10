@@ -168,6 +168,7 @@ namespace osu.Framework
             addFont(localFonts, Resources, @"Fonts/RobotoCondensed/RobotoCondensed-Bold");
 
             // for testing.
+            addTtfFont(localFonts, Resources, @"Fonts/Ttf/OpenSans-TTF");
             addTtfFont(localFonts, Resources, @"Fonts/Ttf/WendyOne-Regular");
             addTtfFont(localFonts, Resources, @"Fonts/Ttf/Makinas4-Regular");
 

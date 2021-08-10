@@ -33,9 +33,15 @@ namespace osu.Framework.Tests.Visual.Sprites
 
             flow.Add(new SpriteText
             {
-                Font = new FontUsage("WendyOne", weight: "Regular"),
-                Text = @"the quick red fox jumps over the lazy brown dog カラオケ 123aaa"
+                Font = new FontUsage("OpenSans", weight: "TTF"),
+                Text = @"the quick red fox jumps over the lazy brown dog 123aaa"
             });
+            flow.Add(new SpriteText
+            {
+                Font = new FontUsage("OpenSans", weight: "Regular"),
+                Text = @"the quick red fox jumps over the lazy brown dog 123aaa"
+            });
+
             flow.Add(new SpriteText
             {
                 Font = new FontUsage("Makinas4", weight: "Regular"),
@@ -59,13 +65,14 @@ namespace osu.Framework.Tests.Visual.Sprites
                 SpriteText text = new SpriteText
                 {
                     Text = $@"Font testy at size {i}",
-                    Font = new FontUsage("Roboto", i, i % 4 > 1 ? "Bold" : "Regular", i % 2 == 1),
+                    Font = new FontUsage("Makinas4", i, "Regular", i % 2 == 1),
                     AllowMultiline = true,
                     RelativeSizeAxes = Axes.X,
                 };
 
                 flow.Add(text);
             }
+
         }
     }
 }
