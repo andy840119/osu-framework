@@ -18,10 +18,10 @@ namespace osu.Framework.Tests.Localisation
     public class ThreadCultureTest : FrameworkTestScene
     {
         [Resolved]
-        private GameHost host { get; set; }
+        private GameHost host { get; set; } = null!;
 
         [Resolved]
-        private FrameworkConfigManager config { get; set; }
+        private FrameworkConfigManager config { get; set; } = null!;
 
         [Test]
         public void TestDefaultCultureIsInvariant()
