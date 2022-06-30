@@ -1,8 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-#nullable disable
-
 using System.Collections.Generic;
 using NUnit.Framework;
 using osu.Framework.Localisation;
@@ -100,7 +98,7 @@ namespace osu.Framework.Tests.Localisation
             testEquals(false, new LocalisableString(), new RomanisableString(makeStringA, makeStringB));
         }
 
-        private static void testEquals<T>(bool expected, T a, T b)
+        private static void testEquals<T>(bool expected, T a, T b) where T : notnull
         {
             var comparer = EqualityComparer<T>.Default;
 

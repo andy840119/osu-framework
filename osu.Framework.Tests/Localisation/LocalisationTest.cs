@@ -1,8 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-#nullable disable
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,8 +18,8 @@ namespace osu.Framework.Tests.Localisation
     [TestFixture]
     public class LocalisationTest
     {
-        private FrameworkConfigManager config;
-        private LocalisationManager manager;
+        private FrameworkConfigManager config = null!;
+        private LocalisationManager manager = null!;
 
         [SetUp]
         public void Setup()
@@ -447,7 +445,7 @@ namespace osu.Framework.Tests.Localisation
 
         private class FakeFrameworkConfigManager : FrameworkConfigManager
         {
-            protected override string Filename => null;
+            protected override string? Filename => null;
 
             public FakeFrameworkConfigManager()
                 : base(null)
@@ -484,10 +482,10 @@ namespace osu.Framework.Tests.Localisation
                 EffectiveCulture = new CultureInfo(locale);
             }
 
-            public async Task<string> GetAsync(string name, CancellationToken cancellationToken = default) =>
+            public async Task<string?> GetAsync(string name, CancellationToken cancellationToken = default) =>
                 await Task.Run(() => Get(name), cancellationToken).ConfigureAwait(false);
 
-            public string Get(string name)
+            public string? Get(string name)
             {
                 switch (name)
                 {
