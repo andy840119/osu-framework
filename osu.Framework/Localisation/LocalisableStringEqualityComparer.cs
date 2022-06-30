@@ -15,8 +15,8 @@ namespace osu.Framework.Localisation
 
         public bool Equals(LocalisableString x, LocalisableString y)
         {
-            object xData = x.Data;
-            object yData = y.Data;
+            object? xData = x.Data;
+            object? yData = y.Data;
 
             if (ReferenceEquals(null, xData) != ReferenceEquals(null, yData))
                 return false;
@@ -24,8 +24,8 @@ namespace osu.Framework.Localisation
             if (ReferenceEquals(null, xData))
                 return true;
 
-            if (xData.GetType() != yData.GetType())
-                return EqualityComparer<object>.Default.Equals(xData, yData);
+            if (xData.GetType() != yData?.GetType())
+                return EqualityComparer<object?>.Default.Equals(xData, yData);
 
             switch (xData)
             {
